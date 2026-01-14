@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Education | Personal Portfolio{% endblock %}
+
+{% block content %}
+<section class="education-section">
+    <div class="container">
+
+        <!-- Page Header -->
+        <h1 class="page-title">Education</h1>
+        <p class="page-subtitle">
+            Academic background and professional certifications
+        </p>
+
+        <!-- ===================== -->
+        <!-- EDUCATION SECTION -->
+        <!-- ===================== -->
+        <h2 class="section-title">Academic Education</h2>
+
+        <div id="education-list" class="timeline">
+            <p>Loading education data...</p>
+        </div>
+
+        <!-- ===================== -->
+        <!-- CERTIFICATES SECTION -->
+        <!-- ===================== -->
+        <h2 class="section-title">Certificates & Courses</h2>
+
+        <div id="certificate-list" class="certifications-grid">
+            <p>Loading certificates...</p>
+        </div>
+
+    </div>
+</section>
+
+<script>
+/* =========================
+   Load Education from API
+========================= */
+async function loadEducation() {
+    try {
+        const response = await fetch("/api/education");
+        const educations = await response.json();
+
+        const container = document.getElementById("education-list");
+        container.innerHTML = "";
+
+        if (educations.length === 0) {
+            container.innerHTML = "<p>No education records found.</p>";
+            return;
+        }
+
+        educations.forEach(edu => {
+            container.innerHTML += `
+                <div class="timeline-item">
+                    <div class="timeline-date">${edu.year}</div>
+                    <div class="timeline-content">
+                        <div class="education-card">
+                            <div class="edu-header">
+                                <h3>${edu.school_name}</h3>
+                                <span class="edu-year">${edu.year}</span>
+                            </div>
+                            <div class="edu-details">
+                                <h4>${edu.degree}</h4>
+                                <p>${edu.achievements || ""}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+    } catch (error) {
+        document.getElementById("education-list").innerHTML =
+            "<p style='color:red'>Failed to load education data.</p>";
+        console.error(error);
+    }
+}
+
+/* =========================
+   Load Certificates from API
+========================= */
+async function loadCertificates() {
+    try {
+        const response = await fetch("/api/certificates");
+        const certificates = await response.json();
+
+        const container = document.getElementById("certificate-list");
+        container.innerHTML = "";
+
+        if (certificates.length === 0) {
+            container.innerHTML = "<p>No certificates available.</p>";
+            return;
+        }
+
+        certificates.forEach(cert => {
+            container.innerHTML += `
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        🎓
+                    </div>
+                    <h3>${cert.title}</h3>
+                    <p class="cert-org">
+                        ${cert.organization} - ${cert.year}
+                    </p>
+                    <p>${cert.description || ""}</p>
+                    ${
+                        cert.certificate_url
+                        ? `<a href="${cert.certificate_url}" target="_blank">View Certificate</a>`
+                        : ""
+                    }
+                </div>
+            `;
+        });
+
+    } catch (error) {
+        document.getElementById("certificate-list").innerHTML =
+            "<p style='color:red'>Failed to load certificates.</p>";
+        console.error(error);
+    }
+}
+
+/* Load all data when page opens */
+loadEducation();
+loadCertificates();
+</script>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Projects | Personal Portfolio{% endblock %}
+
+{% block content %}
+<section class="projects-section">
+    <div class="container">
+        <h1 class="page-title">Projects</h1>
+        <p class="page-subtitle">Projects that I have developed and participated in</p>
+
+        <div class="projects-filter">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="web">Web Development</button>
+            <button class="filter-btn" data-filter="api">API</button>
+            <button class="filter-btn" data-filter="mobile">Mobile</button>
+            <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+        </div>
+
+        <!-- PROJECT GRID -->
+        <div class="projects-grid" id="projects-grid">
+            <p>Loading projects...</p>
+        </div>
+    </div>
+</section>
+
+<script>
+/* =========================
+   Load Projects from API
+========================= */
+async function loadProjects() {
+    try {
+        const response = await fetch("/api/projects");
+        const projects = await response.json();
+
+        const container = document.getElementById("projects-grid");
+        container.innerHTML = "";
+
+        projects.forEach(project => {
+            const categories = project.technologies.toLowerCase().includes("mobile")
+                ? "mobile"
+                : project.technologies.toLowerCase().includes("api")
+                ? "api"
+                : "web,fullstack";
+
+            container.innerHTML += `
+                <div class="project-card" data-category="${categories}">
+                    <div class="project-image">
+                        <img src="${project.image_url || '/static/images/default.jpg'}" alt="${project.title}">
+                        <div class="project-overlay">
+                            ${project.demo_link ? `<a href="${project.demo_link}" target="_blank" class="demo-btn">Demo</a>` : ""}
+                            ${project.github_link ? `<a href="${project.github_link}" target="_blank" class="code-btn">Code</a>` : ""}
+                        </div>
+                    </div>
+
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3>${project.title}</h3>
+                            <span class="project-date">
+                                ${new Date(project.created_at).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    year: "numeric"
+                                })}
+                            </span>
+                        </div>
+
+                        <p class="project-desc">${project.description}</p>
+
+                        <div class="project-tech">
+                            ${project.technologies.split(",").map(
+                                tech => `<span class="tech-tag">${tech.trim()}</span>`
+                            ).join("")}
+                        </div>
+
+                        <div class="project-links">
+                            ${project.github_link ? `
+                                <a href="${project.github_link}" target="_blank">
+                                    <i class="fab fa-github"></i> GitHub
+                                </a>` : ""
+                            }
+                            ${project.demo_link ? `
+                                <a href="${project.demo_link}" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>` : ""
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        enableFiltering();
+
+    } catch (error) {
+        document.getElementById("projects-grid").innerHTML =
+            "<p style='color:red'>Failed to load projects.</p>";
+        console.error(error);
+    }
+}
+
+/* =========================
+   Filtering (UNCHANGED)
+========================= */
+function enableFiltering() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            projectCards.forEach(card => {
+                const categories = card.getAttribute('data-category').split(',');
+
+                if (filter === 'all' || categories.includes(filter)) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+}
+
+/* Load on page open */
+document.addEventListener("DOMContentLoaded", loadProjects);
+</script>
+{% endblock %}

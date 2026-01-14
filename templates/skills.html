@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Skills | Personal Portfolio{% endblock %}
+
+{% block content %}
+<section class="skills-section">
+    <div class="container">
+        <h1 class="page-title">Skills</h1>
+        <p class="page-subtitle">My technical skills, soft skills, and tools</p>
+
+        <div class="skills-categories">
+            <div class="category-tabs">
+                <button class="tab-btn active" data-category="technical">Technical Skills</button>
+                <button class="tab-btn" data-category="soft">Soft Skills</button>
+                <button class="tab-btn" data-category="tools">Tools</button>
+            </div>
+
+            <div class="category-content">
+
+                <!-- TECHNICAL -->
+                <div class="skills-category active" id="technical">
+                    <div class="skills-grid" id="technical-skills">
+                        <p>Loading technical skills...</p>
+                    </div>
+                </div>
+
+                <!-- SOFT -->
+                <div class="skills-category" id="soft">
+                    <div class="skills-grid" id="soft-skills">
+                        <p>Loading soft skills...</p>
+                    </div>
+                </div>
+
+                <!-- TOOLS -->
+                <div class="skills-category" id="tools">
+                    <div class="tools-grid" id="tools-skills">
+                        <p>Loading tools...</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+/* Keep original tab behavior */
+document.addEventListener('DOMContentLoaded', function () {
+
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const skillCategories = document.querySelectorAll('.skills-category');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const category = this.getAttribute('data-category');
+
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            skillCategories.forEach(cat => {
+                cat.classList.remove('active');
+                if (cat.id === category) {
+                    cat.classList.add('active');
+                }
+            });
+        });
+    });
+
+    loadSkills();
+});
+
+/* Convert level to progress bar % */
+function levelToPercent(level) {
+    switch (level.toLowerCase()) {
+        case "basic": return 60;
+        case "intermediate": return 75;
+        case "advanced": return 85;
+        default: return 70;
+    }
+}
+
+/* Load skills from API */
+async function loadSkills() {
+    try {
+        const response = await fetch("/api/skills");
+        const skills = await response.json();
+
+        const technical = document.getElementById("technical-skills");
+        const soft = document.getElementById("soft-skills");
+        const tools = document.getElementById("tools-skills");
+
+        technical.innerHTML = "";
+        soft.innerHTML = "";
+        tools.innerHTML = "";
+
+        skills.forEach(skill => {
+            const percent = levelToPercent(skill.level);
+
+            if (skill.category === "technical") {
+                technical.innerHTML += `
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">${skill.name}</span>
+                            <span class="skill-level">${skill.level}</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width:${percent}%"></div>
+                        </div>
+                        <p class="skill-desc">${skill.description || ""}</p>
+                    </div>
+                `;
+            }
+
+            if (skill.category === "soft") {
+                soft.innerHTML += `
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">${skill.name}</span>
+                            <span class="skill-level">${skill.level}</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width:${percent}%"></div>
+                        </div>
+                        <p class="skill-desc">${skill.description || ""}</p>
+                    </div>
+                `;
+            }
+
+            if (skill.category === "tools") {
+                tools.innerHTML += `
+                    <div class="tool-card">
+                        <h3>${skill.name}</h3>
+                        <p>${skill.description || ""}</p>
+                        <div class="tool-level">${skill.level}</div>
+                    </div>
+                `;
+            }
+        });
+
+    } catch (error) {
+        console.error("Failed to load skills", error);
+    }
+}
+</script>
+{% endblock %}

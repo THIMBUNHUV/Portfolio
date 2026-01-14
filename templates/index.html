@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Personal Portfolio{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <img src="/static/images/profile.jpg" alt="Profile Photo" class="profile-photo">
+            
+            <div class="hero-text">
+                <h1 class="greeting">
+                    Hello! I’m <span class="highlight">THIM Bunhuv</span>
+                </h1>
+                <p class="tagline">Mobile and Web Developer</p>
+                <p class="intro">
+                    I am an Information Technology student with a strong interest in learning new technologies.
+                    I am especially passionate about developing websites and mobile applications that are
+                    practical, modern, and user-friendly.
+                </p>
+                <div class="hero-buttons">
+                    <a href="/contact" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i> Contact Me
+                    </a>
+                    <a href="/projects" class="btn btn-secondary">
+                        <i class="fas fa-project-diagram"></i> View Projects
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">What You Can Find Here</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h3>Education</h3>
+                <p>Learn more about my education and training background</p>
+                <a href="/education" class="feature-link">Learn more →</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3>Skills</h3>
+                <p>Explore my technical and soft skills in mobile and web development</p>
+                <a href="/skills" class="feature-link">Learn more →</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h3>Projects</h3>
+                <p>View the mobile and web projects I have built and contributed to</p>
+                <a href="/projects" class="feature-link">Learn more →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="quick-info">
+    <div class="container">
+        <div class="info-grid">
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <h4>Location</h4>
+                    <p>Phnom Penh, Cambodia</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-university"></i>
+                <div>
+                    <h4>University</h4>
+                    <p>The University of Cambodia</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-calendar-alt"></i>
+                <div>
+                    <h4>Age</h4>
+                    <p>19 Years Old</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-language"></i>
+                <div>
+                    <h4>Languages</h4>
+                    <p>Khmer, English</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

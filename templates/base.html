@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Personal Portfolio{% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/style copy.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation Menu -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">THIM Bunhuv</a>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/about"><i class="fas fa-user"></i> About Me</a></li>
+                <li><a href="/education"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                <li><a href="/skills"><i class="fas fa-code"></i> Skills</a></li>
+                <li><a href="/projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="/experience"><i class="fas fa-briefcase"></i> Experience</a></li>
+                <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+
+            <div class="footer-section">
+               
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> bunhov1232@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +855 88 892 8826</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Follow Me</h3>
+                <div class="social-links">
+                    <a href="https://github.com/THIMBUNHUV" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/thim-bunhuv-221a08361" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://web.facebook.com/leehov99" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://t.me/Vee_Zee_Huv" target="_blank"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2026 THIM Bunhuv. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
