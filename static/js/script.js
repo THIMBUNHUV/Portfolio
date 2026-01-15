@@ -147,6 +147,10 @@ function debounce(func, wait) {
     };
 }
 
+
+
+
+
 // Add CSS for animations
 const style = document.createElement('style');
 style.textContent = `
