@@ -8,3 +8,4 @@ pydantic
 jinja2
 aiofiles
 email-validator
+psycopg[binary]
